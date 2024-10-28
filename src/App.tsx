@@ -4,6 +4,7 @@ import axios from "axios";
 function App() {
   const [file, setFile] = useState<File | null>(null);
   const [fileNames, setFileNames] = useState<string[]>([]);
+    const [input, setInput] = useState<string>('');
 
   useEffect(() => {
     fetchFileNames();
@@ -11,7 +12,7 @@ function App() {
 
   const fetchFileNames = async () => {
     const response = await axios.get("http://192.168.4.192:9998/audio/list");
-    if (!Array.isArray(response)) {
+    if (!Array.isArray(response.data)) {
       setFileNames([]);
     } else {
       setFileNames(response.data);
@@ -58,6 +59,10 @@ function App() {
           </li>
         ))}
       </ul>
+
+    <hr></hr>
+      <input type="text" value={input} />
+<button onClick={() => playAudio(input)}>Play</button>
     </div>
   );
 }
