@@ -10,7 +10,7 @@ function App() {
   }, []);
 
   const fetchFileNames = async () => {
-    const response = await axios.get("http://192.168.4.192:9999/audio/list");
+    const response = await axios.get("http://192.168.4.192:9998/audio/list");
     if (!Array.isArray(response)) {
       setFileNames([]);
     } else {
@@ -26,7 +26,7 @@ function App() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      await axios.post("http://192.168.4.192:9999/audio/upload", formData);
+      await axios.post("http://192.168.4.192:9998/audio/upload", formData);
       fetchFileNames();
     }
   };
@@ -34,7 +34,7 @@ function App() {
   const playAudio = async (fileName: string) => {
     const confirmPlay = window.confirm(`Do you want to play "${fileName}"?`);
     if (confirmPlay) {
-      await axios.post("http://192.168.4.192:9999/audio/play", { fileName });
+      await axios.post("http://192.168.4.192:9998/audio/play", { fileName });
       alert(`Playing: ${fileName}`);
     }
   };
