@@ -4,14 +4,14 @@ import axios from "axios";
 function App() {
   const [file, setFile] = useState<File | null>(null);
   const [fileNames, setFileNames] = useState<string[]>([]);
-    const [input, setInput] = useState<string>('');
+  const [input, setInput] = useState<string>("");
 
   useEffect(() => {
     fetchFileNames();
   }, []);
 
   const fetchFileNames = async () => {
-    const response = await axios.get("http://192.168.4.192:9998/audio/list");
+    const response = await axios.get("http://192.168.4.192:9995/audio/list");
     if (!Array.isArray(response.data)) {
       setFileNames([]);
     } else {
@@ -27,7 +27,7 @@ function App() {
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
-      await axios.post("http://192.168.4.192:9998/audio/upload", formData);
+      await axios.post("http://192.168.4.192:9995/audio/upload", formData);
       fetchFileNames();
     }
   };
@@ -35,7 +35,17 @@ function App() {
   const playAudio = async (fileName: string) => {
     const confirmPlay = window.confirm(`Do you want to play "${fileName}"?`);
     if (confirmPlay) {
-      await axios.post("http://192.168.4.192:9998/audio/play", { fileName });
+      await axios.post("http://192.168.4.192:9995/audio/play", { fileName });
+      alert(`Playing: ${fileName}`);
+    }
+  };
+
+  const runCommand = async (fileName: string) => {
+    const confirmPlay = window.confirm(`Do you want to play "${fileName}"?`);
+    if (confirmPlay) {
+      await axios.post("http://192.168.4.192:9995/audio/command", {
+        command: input,
+      });
       alert(`Playing: ${fileName}`);
     }
   };
@@ -60,9 +70,13 @@ function App() {
         ))}
       </ul>
 
-    <hr></hr>
-      <input type="text" value={input} />
-<button onClick={() => playAudio(input)}>Play</button>
+      <hr></hr>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <button onClick={() => runCommand(input)}>Play</button>
     </div>
   );
 }
