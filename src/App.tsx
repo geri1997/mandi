@@ -71,6 +71,8 @@ function App() {
       </ul>
 
       <hr></hr>
+      cdo gj qe shkrun tek inputi posht esht njesoj si ta shkruash ne terminal te armandos. base directory ku bajn run kto esht ~
+      <br></br>
       <input
         type="text"
         value={input}
